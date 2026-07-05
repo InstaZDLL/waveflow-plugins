@@ -40,8 +40,8 @@
         "homepage": { "type": "string", "format": "uri" },
         "world": {
           "type": "string",
-          "enum": ["waveflow:source@1.0.0", "waveflow:metadata@1.0.0", "waveflow:ui@1.0.0"],
-          "description": "The WIT world the plugin exports. Must match manifest.toml [plugin] world."
+          "enum": ["waveflow:source/v1", "waveflow:metadata/v1", "waveflow:ui/v1"],
+          "description": "The WIT world the plugin exports, as the manifest label (`/vN` form, NOT the `@x.y.z` WIT package name). Must match manifest.toml [plugin] world byte-for-byte — the app refuses a mismatch. Minor WIT revisions (e.g. metadata 1.1.0) keep the same `/v1` label."
         },
         "version": {
           "type": "string",

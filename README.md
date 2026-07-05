@@ -45,7 +45,7 @@ Every entry is validated against [`schema/registry.schema.json`](schema/registry
   "author": "InstaZDLL",
   "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
   "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",
-  "world": "waveflow:metadata@1.0.0",
+  "world": "waveflow:metadata/v1",
   "version": "1.0.0",
   "blake3": "0000000000000000000000000000000000000000000000000000000000000000",
   "permissions": {

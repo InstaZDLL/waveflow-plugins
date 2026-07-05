@@ -6,13 +6,13 @@ This guide takes you from an idea to a listed, installable plugin.
 
 A plugin exports exactly one WaveFlow **WIT world**. Choose the one that matches what you're adding:
 
-| World | For | Key exports |
+| World label | For | Key exports |
 |-------|-----|-------------|
-| `waveflow:source@1.0.0` | New playable content (radio, podcasts, network shares) | `list-entries`, `resolve(query)`, `stream-url(track-id)` |
-| `waveflow:metadata@1.0.0` | Enriching existing library rows (bios, similar artists, lyrics, artwork) | `artist-info`, `album-info`, `lyrics` |
-| `waveflow:ui@1.0.0` | Custom views (reserved — host binding lands in a later app version) | `render` |
+| `waveflow:source/v1` | New playable content (radio, podcasts, network shares) | `list-entries`, `resolve(query)`, `stream-url(track-id)` |
+| `waveflow:metadata/v1` | Enriching existing library rows (bios, similar artists, lyrics, artwork) | `artist-info`, `album-info`, `lyrics` |
+| `waveflow:ui/v1` | Custom views (reserved — host binding lands in a later app version) | `render` |
 
-The WIT definitions live in the app repo under [`src-tauri/crates/plugin-sdk/wit/`](https://github.com/InstaZDLL/WaveFlow/tree/main/src-tauri/crates/plugin-sdk/wit). Your host imports are `waveflow:host/{http,log,storage}` — nothing else is reachable.
+The manifest `world` uses the **`/vN` label** (e.g. `waveflow:metadata/v1`), not the `@x.y.z` WIT package name — they're related but distinct strings. A minor WIT revision (e.g. metadata gaining a field at `@1.1.0`) keeps the same `/v1` label; only a major bump introduces `/v2`. The WIT definitions live in the app repo under [`src-tauri/crates/plugin-sdk/wit/`](https://github.com/InstaZDLL/WaveFlow/tree/main/src-tauri/crates/plugin-sdk/wit). Your host imports are `waveflow:host/{http,log,storage}` — nothing else is reachable.
 
 ## 2. Build the component
 
