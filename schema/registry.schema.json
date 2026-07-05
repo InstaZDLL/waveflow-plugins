@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/InstaZDLL/waveflow-plugins/main/schema/registry.schema.json",
+  "title": "WaveFlow plugin registry",
+  "description": "Curated catalogue of installable WaveFlow plugins. The desktop app fetches this file, shows the entries in its in-app store, and installs the pinned release of each plugin after verifying its blake3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plugins"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema_version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Bumped only on a breaking change to this schema. The app refuses a registry whose schema_version it doesn't understand."
+    },
+    "plugins": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description", "author", "repo", "world", "version", "blake3", "permissions"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Stable plugin id. MUST equal the install-dir name and the manifest.toml [plugin] id — the app refuses a mismatch."
+        },
+        "name": { "type": "string", "minLength": 1, "description": "Human-readable display name." },
+        "description": { "type": "string", "minLength": 1, "description": "One or two sentences shown on the store card." },
+        "author": { "type": "string", "minLength": 1 },
+        "repo": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$",
+          "description": "GitHub owner/name hosting the plugin's releases. The pinned release asset is downloaded from this repo."
+        },
+        "homepage": { "type": "string", "format": "uri" },
+        "world": {
+          "type": "string",
+          "enum": ["waveflow:source@1.0.0", "waveflow:metadata@1.0.0", "waveflow:ui@1.0.0"],
+          "description": "The WIT world the plugin exports. Must match manifest.toml [plugin] world."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$",
+          "description": "The published semver the registry pins. Updating a plugin = bump this + blake3 in one commit here (the curation gate)."
+        },
+        "blake3": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "blake3 hex of the plugin.wasm shipped in the pinned release. The app verifies the downloaded wasm against this before loading — the registry, not the release, is the trusted source of truth."
+        },
+        "asset": {
+          "type": "string",
+          "description": "Release asset filename. Defaults to <id>-v<version>.zip when omitted."
+        },
+        "permissions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["http", "storage_read", "storage_state"],
+          "description": "Mirror of manifest.toml [permissions]. Shown to the user before install AND enforced at runtime by the host sandbox (unlike omniget, where capabilities are cosmetic).",
+          "properties": {
+            "http": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Allowlisted outbound hostnames. Empty = no network."
+            },
+            "storage_read": { "type": "boolean", "description": "May read its bundled sidecar assets." },
+            "storage_state": { "type": "boolean", "description": "May persist to its private scratch store (10 MB quota)." }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Free-form categories for store filtering."
+        },
+        "official": {
+          "type": "boolean",
+          "description": "First-party plugin maintained by the WaveFlow team. The store badges these; community plugins carry an 'unverified' hint.",
+          "default": false
+        },
+        "min_app_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+          "description": "Minimum WaveFlow version required. The store greys out install below this."
+        }
+      }
+    }
+  }
+}

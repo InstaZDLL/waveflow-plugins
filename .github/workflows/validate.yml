@@ -1,0 +1,51 @@
+# Validates registry.json against schema/registry.schema.json on every
+# push + PR, so a malformed or schema-breaking plugin entry can't land.
+
+name: validate-registry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install validator
+        run: npm install --no-save ajv@8 ajv-formats@3
+
+      - name: Validate registry.json against the schema
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import Ajv from 'ajv';
+          import addFormats from 'ajv-formats';
+
+          const schema = JSON.parse(fs.readFileSync('schema/registry.schema.json', 'utf8'));
+          const data = JSON.parse(fs.readFileSync('registry.json', 'utf8'));
+
+          const ajv = new Ajv({ allErrors: true, strict: false });
+          addFormats(ajv);
+          const validate = ajv.compile(schema);
+
+          if (!validate(data)) {
+            console.error('registry.json failed schema validation:');
+            for (const e of validate.errors) console.error(`  ${e.instancePath || '/'} ${e.message}`);
+            process.exit(1);
+          }
+
+          // Extra invariants the JSON Schema can't express cheaply.
+          const ids = new Set();
+          for (const p of data.plugins) {
+            if (ids.has(p.id)) { console.error(`duplicate plugin id: ${p.id}`); process.exit(1); }
+            ids.add(p.id);
+          }
+          console.log(`OK — ${data.plugins.length} plugin(s), no duplicate ids.`);
+          EOF

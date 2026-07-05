@@ -1,0 +1,89 @@
+# WaveFlow plugin release workflow — copy into your plugin repo at
+# .github/workflows/release.yml
+#
+# Single job, NO OS matrix: a WaveFlow plugin is one portable
+# `plugin.wasm` that runs on every platform. On a `v*` tag push this:
+#   1. builds the WIT component,
+#   2. packages manifest.toml + plugin.wasm (+ optional assets/) into
+#      <id>-<tag>.zip,
+#   3. computes the blake3 of plugin.wasm,
+#   4. attaches the zip + a plugin.wasm.blake3 file to the GitHub Release.
+#
+# Then open a PR against InstaZDLL/waveflow-plugins adding your entry
+# to registry.json with `version` = tag (no leading v) and `blake3` =
+# the value printed in this job's log.
+
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  # Change this to your plugin id (must match manifest.toml [plugin] id).
+  PLUGIN_ID: my-plugin
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust + wasm target
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup target add wasm32-wasip1
+
+      - name: Install cargo-component + b3sum
+        run: |
+          cargo install cargo-component --locked
+          cargo install b3sum --locked
+
+      - name: Build component
+        run: cargo component build --release
+
+      - name: Assemble dist/
+        id: assemble
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          WASM=$(find target -name '*.wasm' -path '*release*' | head -n1)
+          test -n "$WASM" || { echo "::error::no release .wasm found"; exit 1; }
+
+          mkdir -p dist
+          cp manifest.toml dist/
+          cp "$WASM" dist/plugin.wasm
+          [ -d assets ] && cp -r assets dist/assets || true
+
+          # blake3 the EXACT file the app will verify.
+          BLAKE3=$(b3sum --no-names dist/plugin.wasm)
+          echo "$BLAKE3" > dist/plugin.wasm.blake3
+          echo "blake3=$BLAKE3" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          ZIP="${PLUGIN_ID}-v${VERSION}.zip"
+          ( cd dist && zip -r "../$ZIP" manifest.toml plugin.wasm assets 2>/dev/null || zip -r "../$ZIP" manifest.toml plugin.wasm )
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
+
+          echo "::notice title=blake3::plugin.wasm blake3 = $BLAKE3  (paste this into registry.json)"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ steps.assemble.outputs.zip }}
+            dist/plugin.wasm.blake3
+          body: |
+            WaveFlow plugin `${{ env.PLUGIN_ID }}` v${{ steps.assemble.outputs.version }}
+
+            `plugin.wasm` blake3:
+            ```
+            ${{ steps.assemble.outputs.blake3 }}
+            ```
+            To list/update in the store, open a PR against
+            [InstaZDLL/waveflow-plugins](https://github.com/InstaZDLL/waveflow-plugins)
+            setting `version` = `${{ steps.assemble.outputs.version }}` and `blake3` to the value above.
