@@ -25,7 +25,9 @@ jobs:
         run: |
           node --input-type=module <<'EOF'
           import fs from 'node:fs';
-          import Ajv from 'ajv';
+          // The schema is JSON Schema draft 2020-12 — use Ajv's 2020 build,
+          // not the default (draft-07) export, or it can't load the meta-schema.
+          import Ajv from 'ajv/dist/2020.js';
           import addFormats from 'ajv-formats';
 
           const schema = JSON.parse(fs.readFileSync('schema/registry.schema.json', 'utf8'));
