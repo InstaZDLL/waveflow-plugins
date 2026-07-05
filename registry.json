@@ -24,7 +24,7 @@
       },
       "tags": ["artwork", "apple-music", "metadata"],
       "official": true,
-      "min_app_version": "1.7.0"
+      "min_app_version": "1.6.2"
     }
   ]
 }
