@@ -35,7 +35,10 @@
           "type": "object",
           "minProperties": 1,
           "additionalProperties": { "type": "string", "minLength": 1 },
-          "propertyNames": { "pattern": "^[a-z]{2}(?:-[A-Za-z]{2,4})?$" },
+          "propertyNames": {
+            "enum": ["en", "fr", "de", "es", "it", "nl", "pt", "pt-BR", "ru", "tr", "id", "ja", "ko", "zh-CN", "zh-TW", "ar", "hi"],
+            "description": "Exactly the codes WaveFlow ships, case included. A permissive pattern would wave through a typo like \"pt-br\" or \"jp\": the app looks the key up verbatim, so the entry would simply never be shown, silently. Add a code here when WaveFlow adds a locale."
+          },
           "description": "Translations of `description`, keyed by the app's locale codes (en, fr, de, es, it, nl, pt, pt-BR, ru, tr, id, ja, ko, zh-CN, zh-TW, ar, hi). WaveFlow 1.8.0+ shows the entry in the user's language and falls back exact code → base language → en → any entry; older builds ignore this field and render `description` as before. Keep brand tokens (WaveFlow, Apple Music, Last.fm, HEVC…) verbatim."
         },
         "author": { "type": "string", "minLength": 1 },
