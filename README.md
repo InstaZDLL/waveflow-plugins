@@ -42,6 +42,9 @@ Every entry is validated against [`schema/registry.schema.json`](schema/registry
   "id": "apple-artwork",
   "name": "Apple Motion Artwork",
   "description": "Fetches Apple Music's animated album covers and plays them behind the now-playing view.",
+  "description_i18n": {
+    "fr": "Récupère les pochettes animées d'Apple Music et les affiche derrière la vue En cours de lecture."
+  },
   "author": "InstaZDLL",
   "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
   "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",

@@ -30,7 +30,14 @@
           "description": "Stable plugin id. MUST equal the install-dir name and the manifest.toml [plugin] id — the app refuses a mismatch."
         },
         "name": { "type": "string", "minLength": 1, "description": "Human-readable display name." },
-        "description": { "type": "string", "minLength": 1, "description": "One or two sentences shown on the store card." },
+        "description": { "type": "string", "minLength": 1, "description": "One or two sentences shown on the store card. MUST stay a plain string: this file is fetched by every WaveFlow ever installed, and a build predating localized descriptions fails to decode the whole catalogue if it finds an object here — its store goes dark. Translations belong in description_i18n." },
+        "description_i18n": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 },
+          "propertyNames": { "pattern": "^[a-z]{2}(?:-[A-Za-z]{2,4})?$" },
+          "description": "Translations of `description`, keyed by the app's locale codes (en, fr, de, es, it, nl, pt, pt-BR, ru, tr, id, ja, ko, zh-CN, zh-TW, ar, hi). WaveFlow 1.8.0+ shows the entry in the user's language and falls back exact code → base language → en → any entry; older builds ignore this field and render `description` as before. Keep brand tokens (WaveFlow, Apple Music, Last.fm, HEVC…) verbatim."
+        },
         "author": { "type": "string", "minLength": 1 },
         "repo": {
           "type": "string",

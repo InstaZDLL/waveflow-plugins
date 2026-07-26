@@ -52,6 +52,31 @@ storage_state = true
 
 Declare the **narrowest** HTTP allowlist that works — it's shown to the user before install and enforced at runtime.
 
+### Translating what the user reads
+
+WaveFlow ships in 17 languages, but your manifest lives outside its translation files — so the app can only show what you write here. Add the translations in a **sibling `*_i18n` table**, leaving the English string exactly where it is:
+
+```toml
+[plugin]
+description = "Fetches Apple Music's animated album covers."
+
+[plugin.description_i18n]
+fr = "Récupère les pochettes animées d'Apple Music."
+de = "Holt animierte Albumcover von Apple Music."
+
+[[options]]
+key = "prefer_hevc"
+type = "bool"
+label = "Prefer 4K HEVC covers"
+
+[options.label_i18n]
+fr = "Préférer les pochettes 4K HEVC"
+```
+
+Locale codes: `en` `fr` `de` `es` `it` `nl` `pt` `pt-BR` `ru` `tr` `id` `ja` `ko` `zh-CN` `zh-TW` `ar` `hi`. Any subset is fine — WaveFlow falls back exact code → base language (`pt-BR` → `pt`) → `en` → any entry. Keep brand and codec tokens (`WaveFlow`, `Apple Music`, `Last.fm`, `HEVC`…) verbatim.
+
+> **Do not replace the string with a language map.** WaveFlow ≥ 1.8.0 also accepts `[plugin.description]` as an inline `en = … / fr = …` table, but a host predating that expects a string, errors on the table, and **drops your plugin entirely**. The sibling form is ignored by old hosts and understood by new ones, so it costs you nothing and needs no `min_app_version` bump.
+
 ## 4. Release it
 
 Tag a semver release in your plugin repo. Copy [`templates/plugin-release.yml`](templates/plugin-release.yml) into `.github/workflows/` — it is a **single job** (no OS matrix) that:
@@ -68,6 +93,7 @@ Open a PR against this repo adding your entry to [`registry.json`](registry.json
 - `version` = the release tag (without `v`).
 - `blake3` = the hash the release workflow printed. **This is what the app verifies.** Get it wrong and installs fail closed.
 - `permissions` = a byte-for-byte mirror of your `manifest.toml` `[permissions]`.
+- `description` = a plain string, **always**. `registry.json` is one document fetched by every WaveFlow ever installed; an older build that finds an object here fails to decode the entire catalogue from all three delivery paths and its store goes dark — for every plugin, not just yours. Translations go in the optional `description_i18n` map next to it, which old builds ignore.
 
 CI validates your entry against [the schema](schema/registry.schema.json). Once merged, your plugin appears in every user's in-app store within minutes (raw.githubusercontent + jsDelivr are the delivery paths).
 
