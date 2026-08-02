@@ -43,6 +43,44 @@
       "tags": ["artwork", "apple-music", "metadata"],
       "official": true,
       "min_app_version": "1.6.2"
+    },
+    {
+      "id": "release-radar",
+      "name": "Release Radar",
+      "description": "Recent releases from your library's artists, via MusicBrainz and the Cover Art Archive.",
+      "description_i18n": {
+        "fr": "Les sorties récentes des artistes de votre bibliothèque, via MusicBrainz et la Cover Art Archive.",
+        "de": "Neue Veröffentlichungen der Künstler in deiner Bibliothek, über MusicBrainz und das Cover Art Archive.",
+        "es": "Lanzamientos recientes de los artistas de tu biblioteca, mediante MusicBrainz y el Cover Art Archive.",
+        "it": "Uscite recenti degli artisti della tua libreria, tramite MusicBrainz e il Cover Art Archive.",
+        "nl": "Recente releases van de artiesten in je bibliotheek, via MusicBrainz en het Cover Art Archive.",
+        "pt": "Lançamentos recentes dos artistas da sua biblioteca, através do MusicBrainz e do Cover Art Archive.",
+        "pt-BR": "Lançamentos recentes dos artistas da sua biblioteca, via MusicBrainz e o Cover Art Archive.",
+        "ru": "Свежие релизы исполнителей из вашей медиатеки — через MusicBrainz и Cover Art Archive.",
+        "tr": "Kitaplığınızdaki sanatçıların son çıkışları; MusicBrainz ve Cover Art Archive üzerinden.",
+        "id": "Rilis terbaru dari artis di pustaka Anda, melalui MusicBrainz dan Cover Art Archive.",
+        "ja": "ライブラリのアーティストの最近のリリースを、MusicBrainz と Cover Art Archive から表示します。",
+        "ko": "라이브러리 아티스트의 최신 릴리스를 MusicBrainz와 Cover Art Archive에서 가져옵니다.",
+        "zh-CN": "通过 MusicBrainz 和 Cover Art Archive 展示你音乐库中艺术家的最新发行。",
+        "zh-TW": "透過 MusicBrainz 與 Cover Art Archive 呈現你音樂庫中演出者的最新發行。",
+        "ar": "أحدث إصدارات الفنانين في مكتبتك، عبر MusicBrainz وأرشيف Cover Art Archive.",
+        "hi": "आपकी लाइब्रेरी के कलाकारों की हालिया रिलीज़, MusicBrainz और Cover Art Archive के ज़रिए।"
+      },
+      "author": "InstaZDLL",
+      "repo": "InstaZDLL/waveflow-plugin-release-radar",
+      "homepage": "https://github.com/InstaZDLL/waveflow-plugin-release-radar",
+      "world": "waveflow:ui/v1",
+      "version": "0.1.0",
+      "blake3": "359071d096c3b10159a776ceba7cdfa73f5ce3ffbd2ce8b4745991eab39b1d2e",
+      "permissions": {
+        "http": ["https://musicbrainz.org/**"],
+        "storage_read": false,
+        "storage_state": true,
+        "library_read_artists": true
+      },
+      "tags": ["discovery", "releases", "musicbrainz", "ui"],
+      "official": true,
+      "min_app_version": "1.8.0"
     }
   ]
 }
