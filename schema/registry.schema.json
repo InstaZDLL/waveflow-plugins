@@ -79,7 +79,8 @@
               "description": "Allowlisted outbound hostnames. Empty = no network."
             },
             "storage_read": { "type": "boolean", "description": "May read its bundled sidecar assets." },
-            "storage_state": { "type": "boolean", "description": "May persist to its private scratch store (10 MB quota)." }
+            "storage_state": { "type": "boolean", "description": "May persist to its private scratch store (10 MB quota)." },
+            "library_read_artists": { "type": "boolean", "description": "ui-world only: redacted read of the library's artist list (names + aggregate track counts + opaque ids, NO file paths or per-track rows), enforced at runtime by the host sandbox. Optional — omit for non-ui plugins. Mirror of manifest.toml [permissions] library_read_artists. WaveFlow 1.8.0+ shows this before install; older builds ignore the field." }
           }
         },
         "tags": {
