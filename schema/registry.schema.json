@@ -98,7 +98,24 @@
           "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
           "description": "Minimum WaveFlow version required. The store greys out install below this."
         }
-      }
+      },
+      "allOf": [
+        {
+          "$comment": "library_read_artists is a ui-world-only capability — the host wires the library import only for waveflow:ui/v1. So an entry granting it (=true) MUST declare that world. Entries that omit it, or set it false, are unaffected.",
+          "if": {
+            "required": ["permissions"],
+            "properties": {
+              "permissions": {
+                "required": ["library_read_artists"],
+                "properties": { "library_read_artists": { "const": true } }
+              }
+            }
+          },
+          "then": {
+            "properties": { "world": { "const": "waveflow:ui/v1" } }
+          }
+        }
+      ]
     }
   }
 }

@@ -51,3 +51,49 @@ jobs:
           }
           console.log(`OK — ${data.plugins.length} plugin(s), no duplicate ids.`);
           EOF
+
+      - name: Schema self-tests (library_read_artists is ui-world-only)
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          import Ajv from 'ajv/dist/2020.js';
+          import addFormats from 'ajv-formats';
+
+          const schema = JSON.parse(fs.readFileSync('schema/registry.schema.json', 'utf8'));
+          const ajv = new Ajv({ allErrors: true, strict: false });
+          addFormats(ajv);
+          // Compile the entry sub-schema directly so fixtures don't need a
+          // full { schema_version, plugins:[...] } wrapper.
+          const entry = ajv.compile(schema.$defs.entry);
+
+          const base = {
+            id: 'x', name: 'X', description: 'd', author: 'a', repo: 'o/r',
+            version: '0.1.0', blake3: '0'.repeat(64),
+          };
+          const perms = (lib) => ({
+            http: [], storage_read: false, storage_state: true,
+            ...(lib !== undefined ? { library_read_artists: lib } : {}),
+          });
+
+          // [name, entry, shouldValidate]
+          const cases = [
+            ['ui + library_read_artists:true',  { ...base, world: 'waveflow:ui/v1',       permissions: perms(true)  }, true],
+            ['ui + library_read_artists:false', { ...base, world: 'waveflow:ui/v1',       permissions: perms(false) }, true],
+            ['metadata, permission omitted',    { ...base, world: 'waveflow:metadata/v1', permissions: perms()      }, true],
+            // The point of the conditional: a non-ui entry granting the
+            // ui-only artist read must be rejected.
+            ['source + library_read_artists:true',   { ...base, world: 'waveflow:source/v1',   permissions: perms(true) }, false],
+            ['metadata + library_read_artists:true', { ...base, world: 'waveflow:metadata/v1', permissions: perms(true) }, false],
+          ];
+
+          let failed = false;
+          for (const [name, fixture, expected] of cases) {
+            const got = entry(fixture);
+            if (got !== expected) {
+              failed = true;
+              console.error(`  FAIL: "${name}" expected ${expected ? 'valid' : 'invalid'}, got ${got ? 'valid' : 'invalid'}`);
+            }
+          }
+          if (failed) process.exit(1);
+          console.log(`OK — ${cases.length} schema self-tests passed.`);
+          EOF
