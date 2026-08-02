@@ -80,6 +80,10 @@ jobs:
             ['ui + library_read_artists:true',  { ...base, world: 'waveflow:ui/v1',       permissions: perms(true)  }, true],
             ['ui + library_read_artists:false', { ...base, world: 'waveflow:ui/v1',       permissions: perms(false) }, true],
             ['metadata, permission omitted',    { ...base, world: 'waveflow:metadata/v1', permissions: perms()      }, true],
+            // Presence at `false` is a no-op — the conditional keys off
+            // `const: true`, so a non-ui plugin explicitly setting it false
+            // must NOT be rejected.
+            ['source + library_read_artists:false', { ...base, world: 'waveflow:source/v1', permissions: perms(false) }, true],
             // The point of the conditional: a non-ui entry granting the
             // ui-only artist read must be rejected.
             ['source + library_read_artists:true',   { ...base, world: 'waveflow:source/v1',   permissions: perms(true) }, false],
