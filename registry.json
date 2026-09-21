@@ -28,8 +28,8 @@
       "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
       "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",
       "world": "waveflow:metadata/v1",
-      "version": "0.3.1",
-      "blake3": "791cfbb6deaa9363397b984a898275a5d9e131aa519dfd67083147a9169b8850",
+      "version": "0.3.2",
+      "blake3": "bc7fba2959e8b8830b20ab5a21de8af620327bcd49db4b7cc6254cfbbda9830a",
       "permissions": {
         "http": [
           "https://itunes.apple.com/**",
@@ -70,8 +70,8 @@
       "repo": "InstaZDLL/waveflow-plugin-release-radar",
       "homepage": "https://github.com/InstaZDLL/waveflow-plugin-release-radar",
       "world": "waveflow:ui/v1",
-      "version": "0.1.1",
-      "blake3": "f866ceb451cced7242a99b701c8fdc0c19239782830a16b80e174a2121ba4bf8",
+      "version": "0.1.2",
+      "blake3": "2504ce013ed56984a8fa807a28b6e976ef3fbff2dc008c2f39dfa4755bb81264",
       "permissions": {
         "http": ["https://musicbrainz.org/**"],
         "storage_read": false,
