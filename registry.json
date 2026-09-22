@@ -70,8 +70,8 @@
       "repo": "InstaZDLL/waveflow-plugin-release-radar",
       "homepage": "https://github.com/InstaZDLL/waveflow-plugin-release-radar",
       "world": "waveflow:ui/v1",
-      "version": "0.1.2",
-      "blake3": "2504ce013ed56984a8fa807a28b6e976ef3fbff2dc008c2f39dfa4755bb81264",
+      "version": "0.1.3",
+      "blake3": "58ce379ef94a4737c82970523c79e22b3f3cf43a7a07243ad96e6f4a91c2fb0c",
       "permissions": {
         "http": ["https://musicbrainz.org/**"],
         "storage_read": false,
