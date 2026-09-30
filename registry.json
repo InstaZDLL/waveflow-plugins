@@ -28,8 +28,8 @@
       "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
       "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",
       "world": "waveflow:metadata/v1",
-      "version": "0.3.5",
-      "blake3": "e778fd5af9b92d4b58843a62ad2abac7945e1272ad05b4501a8ec9b47b7b3d9a",
+      "version": "0.3.6",
+      "blake3": "3915ef5f0151d8b836038e3b54dcbd6746db6b20683b095239287aaa290c5d77",
       "permissions": {
         "http": [
           "https://itunes.apple.com/**",
