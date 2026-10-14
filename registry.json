@@ -3,48 +3,6 @@
   "schema_version": 1,
   "plugins": [
     {
-      "id": "apple-artwork",
-      "name": "Apple Motion Artwork",
-      "description": "Bring your Now Playing screen to life with animated album artwork from Apple Music.",
-      "description_i18n": {
-        "fr": "Donnez vie à votre vue En cours de lecture avec les pochettes animées d'Apple Music.",
-        "de": "Bring deine Ansicht „Wird gespielt“ mit animierten Album-Covern von Apple Music zum Leben.",
-        "es": "Dale vida a tu pantalla Reproduciendo ahora con las portadas animadas de Apple Music.",
-        "it": "Dai vita alla schermata In riproduzione con le copertine animate di Apple Music.",
-        "nl": "Breng je Speelt nu-venster tot leven met geanimeerde albumhoezen van Apple Music.",
-        "pt": "Dá vida ao teu ecrã Agora a reproduzir com capas de álbum animadas do Apple Music.",
-        "pt-BR": "Dê vida à sua tela Tocando agora com capas de álbum animadas do Apple Music.",
-        "ru": "Оживите экран «Сейчас играет» анимированными обложками из Apple Music.",
-        "tr": "Şimdi çalıyor ekranınızı Apple Music'in hareketli albüm kapaklarıyla canlandırın.",
-        "id": "Hidupkan tampilan Sedang diputar dengan sampul album animasi dari Apple Music.",
-        "ja": "Apple Music のアニメーション化されたアルバムアートワークで、「再生中」の画面をより鮮やかに彩ります。",
-        "ko": "Apple Music의 움직이는 앨범 아트워크로 지금 재생 중 화면을 생동감 있게 만들어 보세요.",
-        "zh-CN": "用 Apple Music 的动态专辑封面让“正在播放”界面更加生动。",
-        "zh-TW": "使用來自 Apple Music 的動態專輯封面，讓您的「現在播放」畫面更生動。",
-        "ar": "أضف الحيوية إلى شاشة «قيد التشغيل» بأغلفة ألبومات متحركة من Apple Music.",
-        "hi": "Apple Music के एनिमेटेड एल्बम आर्टवर्क से अपनी ‘अब चल रहा है’ स्क्रीन को जीवंत बनाएँ।"
-      },
-      "author": "InstaZDLL",
-      "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
-      "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",
-      "world": "waveflow:metadata/v1",
-      "version": "0.3.7",
-      "blake3": "4d75210d5627ac76e40b35b8199bc62343b5886a9f043bee4d46e1feefe8903c",
-      "permissions": {
-        "http": [
-          "https://itunes.apple.com/**",
-          "https://music.apple.com/**",
-          "https://amp-api.music.apple.com/**",
-          "https://mvod.itunes.apple.com/**"
-        ],
-        "storage_read": false,
-        "storage_state": true
-      },
-      "tags": ["artwork", "apple-music", "metadata"],
-      "official": true,
-      "min_app_version": "1.6.2"
-    },
-    {
       "id": "release-radar",
       "name": "Release Radar",
       "description": "Never miss a new release from the artists you already listen to. Release Radar finds their latest albums and singles for you.",
