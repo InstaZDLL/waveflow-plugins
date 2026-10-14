@@ -39,25 +39,25 @@ Every entry is validated against [`schema/registry.schema.json`](schema/registry
 
 ```json
 {
-  "id": "apple-artwork",
-  "name": "Apple Motion Artwork",
-  "description": "Fetches Apple Music's animated album covers and plays them behind the now-playing view.",
+  "id": "my-artwork",
+  "name": "My Motion Artwork",
+  "description": "Fetches animated album covers and plays them behind the now-playing view.",
   "description_i18n": {
-    "fr": "Récupère les pochettes animées d'Apple Music et les affiche derrière la vue En cours de lecture."
+    "fr": "Récupère des pochettes animées et les affiche derrière la vue En cours de lecture."
   },
-  "author": "InstaZDLL",
-  "repo": "InstaZDLL/waveflow-plugin-apple-artwork",
-  "homepage": "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork",
+  "author": "your-name",
+  "repo": "your-name/waveflow-plugin-my-artwork",
+  "homepage": "https://github.com/your-name/waveflow-plugin-my-artwork",
   "world": "waveflow:metadata/v1",
   "version": "1.0.0",
   "blake3": "0000000000000000000000000000000000000000000000000000000000000000",
   "permissions": {
-    "http": ["music.apple.com", "amp-api.music.apple.com", "itunes.apple.com", "mvod.itunes.apple.com"],
+    "http": ["api.example.com", "media.example.com"],
     "storage_read": false,
     "storage_state": true
   },
-  "tags": ["artwork", "apple-music", "metadata"],
-  "official": true,
+  "tags": ["artwork", "metadata"],
+  "official": false,
   "min_app_version": "1.7.0"
 }
 ```

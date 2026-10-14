@@ -33,19 +33,19 @@ Rename (or configure) the output to `plugin.wasm`. There is **no per-platform ma
 schema_version = 1
 
 [plugin]
-id = "apple-artwork"
-name = "Apple Motion Artwork"
+id = "my-artwork"
+name = "My Motion Artwork"
 version = "1.0.0"
-author = "InstaZDLL"
+author = "your-name"
 world = "waveflow:metadata@1.0.0"
-description = "Fetches Apple Music's animated album covers."
-homepage = "https://github.com/InstaZDLL/waveflow-plugin-apple-artwork"
+description = "Fetches animated album covers from an example service."
+homepage = "https://github.com/your-name/waveflow-plugin-my-artwork"
 license = "MIT"
 
 [permissions]
 # Only these hosts are reachable. The sandbox blocks everything else,
 # including redirects to non-allowlisted hosts.
-http = ["music.apple.com", "amp-api.music.apple.com", "itunes.apple.com", "mvod.itunes.apple.com"]
+http = ["api.example.com", "media.example.com"]
 storage_read = false
 storage_state = true
 ```
